@@ -16,9 +16,10 @@ type SPDataTypeItem struct {
 	PlatformUUID string `plist:"platform_UUID"`
 	SerialNumber string `plist:"serial_number"`
 	Hostname     string `plist:"local_host_name"`
+	Username     string `plist:"user_name"`
 }
 
-func SPHardwareDataType() (map[string][]SPDataTypeItem, error) {
+func SystemProfiler() (map[string][]SPDataTypeItem, error) {
 	data, err := getMacData()
 	if err != nil {
 		return nil, err

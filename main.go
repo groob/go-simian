@@ -1,24 +1,29 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"os/exec"
 	"strings"
 
-	"github.com/groob/go-simian/internal/cfpref"
 	"github.com/groob/go-simian/internal/facts"
 	"github.com/groob/go-simian/simian"
 )
 
 func main() {
+	var (
+		flReport = flag.String("report", "preflight", "report type")
+	)
+	flag.Parse()
+	_ = flReport
+
 	sp, err := facts.SPHardwareDataType()
 	if err != nil {
 		log.Fatal(err)
 	}
 	uuid := sp["SPHardwareDataType"][0].PlatformUUID
-	repoURL := cfpref.CopyAppValue("SoftwareRepoURL", "/Library/Preferences/ManagedInstalls.plist")
-	client, err := simian.NewClient(repoURL.String())
+	client, err := simian.NewClient(GetServerURL())
 	if err != nil {
 		log.Fatal(err)
 	}
